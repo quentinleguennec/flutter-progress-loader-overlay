@@ -9,8 +9,7 @@ part 'default_progress_loader_widget.dart';
 ///
 /// Used by [ProgressLoader]. The created widget can use the provided [ProgressLoaderWidgetController] and register
 /// the onDismiss callback with [ProgressLoaderWidgetController.attach].
-typedef ProgressLoaderWidgetBuilder = Widget Function(
-    BuildContext context, ProgressLoaderWidgetController controller);
+typedef ProgressLoaderWidgetBuilder = Widget Function(BuildContext context, ProgressLoaderWidgetController controller);
 
 /// Can be used to show a widget in an overlay to indicate loading.
 ///
@@ -22,20 +21,18 @@ typedef ProgressLoaderWidgetBuilder = Widget Function(
 class ProgressLoader {
   static final ProgressLoader _instance = ProgressLoader._internal();
 
-  OverlayEntry _overlayEntry;
-  bool _isShowing;
-  bool _isScheduledToShow;
-  bool _isDismissing;
-  ProgressLoaderWidgetController _widgetController;
+  late final OverlayEntry _overlayEntry;
+  late final ProgressLoaderWidgetController _widgetController;
+  late bool _isShowing;
+  late bool _isScheduledToShow;
+  late bool _isDismissing;
 
-  ProgressLoaderWidgetBuilder _widgetBuilder;
+  ProgressLoaderWidgetBuilder? _widgetBuilder;
 
-  ProgressLoaderWidgetBuilder get widgetBuilder =>
-      _widgetBuilder ?? _defaultWidgetBuilder;
+  ProgressLoaderWidgetBuilder get widgetBuilder => _widgetBuilder ?? _defaultWidgetBuilder;
 
   /// Set [widgetBuilder] to use your own custom widget when the [ProgressLoader] is showing.
-  set widgetBuilder(ProgressLoaderWidgetBuilder value) =>
-      _widgetBuilder = value;
+  set widgetBuilder(ProgressLoaderWidgetBuilder? value) => _widgetBuilder = value;
 
   ProgressLoaderWidgetBuilder get _defaultWidgetBuilder =>
       (context, controller) => _DefaultProgressLoaderWidget(controller);
@@ -47,10 +44,10 @@ class ProgressLoader {
 
   ProgressLoader._internal() {
     _overlayEntry = _createOverlayEntry();
+    _widgetController = ProgressLoaderWidgetController();
     _isShowing = false;
     _isDismissing = false;
     _isScheduledToShow = false;
-    _widgetController = ProgressLoaderWidgetController();
   }
 
   factory ProgressLoader() => _instance;
@@ -61,11 +58,11 @@ class ProgressLoader {
   ///
   /// Calling this when the [ProgressLoader] is dismissing (i.e. waiting for the future in
   /// [ProgressLoaderWidgetController] to complete) will cause the [ProgressLoader] to show again as soon as the
-  /// it is done dismissing (unless dismissed is called again in the mean time).
+  /// it is done dismissing (unless dismissed is called again in the meantime).
   Future<void> show(BuildContext context) async {
     if (_isDismissing && !_isScheduledToShow) {
       _isScheduledToShow = true;
-      await SchedulerBinding.instance.endOfFrame;
+      await SchedulerBinding.instance!.endOfFrame;
       await show(context);
       return;
     }
@@ -73,10 +70,10 @@ class ProgressLoader {
     if (_isShowing || _isDismissing) return;
 
     _isScheduledToShow = true;
-    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance!.endOfFrame;
     if (!_isScheduledToShow) return;
 
-    Overlay.of(context).insert(_overlayEntry);
+    Overlay.of(context)!.insert(_overlayEntry);
     _isScheduledToShow = false;
     _isShowing = true;
   }
@@ -91,11 +88,11 @@ class ProgressLoader {
     /// This is here to make sure the widget has been built before trying to dismiss it.
     /// Without this, calling show and dismiss on the same frame will prevent the call to [_WidgetController.dismiss],
     /// because the controller won't have the time to attach itself to the widget.
-    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance!.endOfFrame;
 
-    await _widgetController?._dismiss();
+    await _widgetController._dismiss();
 
-    _overlayEntry?.remove();
+    _overlayEntry.remove();
     _isDismissing = false;
     _isShowing = false;
   }
@@ -106,11 +103,11 @@ class ProgressLoader {
 }
 
 class ProgressLoaderWidgetController {
-  AsyncCallback _onDismiss;
+  AsyncCallback? _onDismiss;
 
   void attach(AsyncCallback onDismiss) => _onDismiss = onDismiss;
 
   void detach() => _onDismiss = null;
 
-  Future<void> _dismiss() => _onDismiss?.call();
+  Future<void> _dismiss() async => await _onDismiss?.call();
 }

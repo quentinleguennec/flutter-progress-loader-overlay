@@ -8,7 +8,7 @@ class _DefaultProgressLoaderWidget extends StatefulWidget {
 
   const _DefaultProgressLoaderWidget(
     this.controller, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -17,11 +17,11 @@ class _DefaultProgressLoaderWidget extends StatefulWidget {
 
 class _DefaultProgressLoaderWidgetState extends State<_DefaultProgressLoaderWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+  late final AnimationController animationController;
 
   @override
   void initState() {
-    widget.controller?.attach(dismiss);
+    widget.controller.attach(dismiss);
 
     animationController = AnimationController(
       vsync: this,
@@ -33,8 +33,8 @@ class _DefaultProgressLoaderWidgetState extends State<_DefaultProgressLoaderWidg
 
   @override
   void dispose() {
-    widget.controller?.detach();
-    animationController?.dispose();
+    widget.controller.detach();
+    animationController.dispose();
     super.dispose();
   }
 

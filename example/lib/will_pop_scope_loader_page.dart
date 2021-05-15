@@ -6,7 +6,7 @@ class WillPopScopeLoaderPage extends MaterialPageRoute<Null> {
 }
 
 class _PageContent extends StatefulWidget {
-  _PageContent({Key key}) : super(key: key);
+  _PageContent({Key? key}) : super(key: key);
 
   @override
   _PageContentState createState() => _PageContentState();

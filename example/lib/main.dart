@@ -8,8 +8,8 @@ import 'will_pop_scope_loader_page.dart';
 
 void main() {
   /// Initialize the builder. This could be done anywhere, but must be done before the loader is first shown.
-  ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
-      SimpleProgressLoaderWidget(loaderWidgetController);
+  ProgressLoader().widgetBuilder =
+      (context, loaderWidgetController) => SimpleProgressLoaderWidget(loaderWidgetController);
 
   runApp(MyApp());
 }
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -38,8 +38,8 @@ class _MyHomePageState extends State<MyHomePage> {
     /// The widget used when the [ProgressLoader] is showing can be changed at any time.
     /// If the [ProgressLoader] is showing when the widget is replaced the new widget will only be shown after the
     /// [ProgressLoader] is dismissed and shown again.
-    ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
-        SimpleProgressLoaderWidget(loaderWidgetController);
+    ProgressLoader().widgetBuilder =
+        (context, loaderWidgetController) => SimpleProgressLoaderWidget(loaderWidgetController);
 
     /// Show the loader,
     await ProgressLoader().show(context);
@@ -52,8 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void showComplexLoader() async {
-    ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
-        ComplexProgressLoaderWidget(loaderWidgetController);
+    ProgressLoader().widgetBuilder =
+        (context, loaderWidgetController) => ComplexProgressLoaderWidget(loaderWidgetController);
 
     await ProgressLoader().show(context);
     await Future<void>.delayed(Duration(seconds: 5));
@@ -63,8 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void showStatelessLoader() async {
     /// With this widget we don't want to do anything special when the [ProgressLoader] is dismissed,
     /// so we don't have to attach anything to the controller, and there is no need to pass it to the widget.
-    ProgressLoader().widgetBuilder =
-        (context, _) => StatelessProgressLoaderWidget();
+    ProgressLoader().widgetBuilder = (context, _) => StatelessProgressLoaderWidget();
 
     await ProgressLoader().show(context);
     await Future<void>.delayed(Duration(seconds: 2));
@@ -104,8 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ElevatedButton(
                 child: Text('Open WillPopScopeLoader demo page'),
-                onPressed: () =>
-                    Navigator.push(context, WillPopScopeLoaderPage()),
+                onPressed: () => Navigator.push(context, WillPopScopeLoaderPage()),
               ),
             ],
           ),

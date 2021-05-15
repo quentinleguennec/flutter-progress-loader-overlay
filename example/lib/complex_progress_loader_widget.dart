@@ -11,7 +11,7 @@ class ComplexProgressLoaderWidget extends StatefulWidget {
 
   const ComplexProgressLoaderWidget(
     this.controller, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -19,8 +19,8 @@ class ComplexProgressLoaderWidget extends StatefulWidget {
 }
 
 class _ComplexProgressLoaderWidgetState extends State<ComplexProgressLoaderWidget> with TickerProviderStateMixin {
-  AnimationController transitionAnimationController;
-  AnimationController animationController;
+  late final AnimationController transitionAnimationController;
+  late final AnimationController animationController;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _ComplexProgressLoaderWidgetState extends State<ComplexProgressLoaderWidge
     /// the future completes before switching to the dismissed state.
     /// If no callback is given, or if the callback is synchronous, this widget will be disposed as soon as
     /// [ProgressLoader.dismiss] is called.
-    widget.controller?.attach(dismiss);
+    widget.controller.attach(dismiss);
 
     transitionAnimationController = AnimationController(
       vsync: this,
@@ -49,9 +49,9 @@ class _ComplexProgressLoaderWidgetState extends State<ComplexProgressLoaderWidge
   @override
   void dispose() {
     /// Don't forget to detach when this widget is disposed to avoid memory leaks.
-    widget.controller?.detach();
-    animationController?.dispose();
-    transitionAnimationController?.dispose();
+    widget.controller.detach();
+    animationController.dispose();
+    transitionAnimationController.dispose();
     super.dispose();
   }
 
@@ -78,8 +78,8 @@ class _DancingBox extends AnimatedWidget {
   final Animation<double> animation;
 
   const _DancingBox({
-    Key key,
-    @required this.animation,
+    Key? key,
+    required this.animation,
   }) : super(key: key, listenable: animation);
 
   double get size => 40 * (1 + animation.value);

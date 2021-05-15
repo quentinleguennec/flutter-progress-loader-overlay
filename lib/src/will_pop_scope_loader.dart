@@ -26,7 +26,7 @@ class WillPopScopeLoader extends StatelessWidget {
   /// If it returns true, it will only be popped if the [ProgressLoader] is not showing.
   ///
   /// Defaults to allow popping.
-  final WillPopCallback onWillPop;
+  final WillPopCallback? onWillPop;
 
   /// Set this to true to allow the route to be popped even when [ProgressLoader] is showing.
   ///
@@ -43,8 +43,8 @@ class WillPopScopeLoader extends StatelessWidget {
   final bool dismissProgressLoaderWhenPopping;
 
   const WillPopScopeLoader({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.onWillPop,
     this.allowPopWhenLoading = false,
     this.dismissProgressLoaderWhenPopping = false,
@@ -55,8 +55,7 @@ class WillPopScopeLoader extends StatelessWidget {
         onWillPop: () async {
           if (await onWillPop?.call() == false) return false;
 
-          if (dismissProgressLoaderWhenPopping)
-            await ProgressLoader().dismiss();
+          if (dismissProgressLoaderWhenPopping) await ProgressLoader().dismiss();
 
           return !ProgressLoader().isLoading || allowPopWhenLoading;
         },

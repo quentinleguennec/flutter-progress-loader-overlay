@@ -8,7 +8,7 @@ class SimpleProgressLoaderWidget extends StatefulWidget {
 
   const SimpleProgressLoaderWidget(
     this.controller, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -16,7 +16,7 @@ class SimpleProgressLoaderWidget extends StatefulWidget {
 }
 
 class _SimpleProgressLoaderWidgetState extends State<SimpleProgressLoaderWidget> with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+  late final AnimationController animationController;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _SimpleProgressLoaderWidgetState extends State<SimpleProgressLoaderWidget>
     /// the future completes before switching to the dismissed state.
     /// If no callback is given, or if the callback is synchronous, this widget will be disposed as soon as
     /// [ProgressLoader.dismiss] is called.
-    widget.controller?.attach(dismiss);
+    widget.controller.attach(dismiss);
 
     animationController = AnimationController(
       vsync: this,
@@ -43,8 +43,8 @@ class _SimpleProgressLoaderWidgetState extends State<SimpleProgressLoaderWidget>
   @override
   void dispose() {
     /// Don't forget to detach when this widget is disposed to avoid memory leaks.
-    widget.controller?.detach();
-    animationController?.dispose();
+    widget.controller.detach();
+    animationController.dispose();
     super.dispose();
   }
 
