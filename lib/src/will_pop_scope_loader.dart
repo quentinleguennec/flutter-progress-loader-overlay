@@ -55,7 +55,8 @@ class WillPopScopeLoader extends StatelessWidget {
         onWillPop: () async {
           if (await onWillPop?.call() == false) return false;
 
-          if (dismissProgressLoaderWhenPopping) await ProgressLoader().dismiss();
+          if (dismissProgressLoaderWhenPopping)
+            await ProgressLoader().dismiss();
 
           return !ProgressLoader().isLoading || allowPopWhenLoading;
         },

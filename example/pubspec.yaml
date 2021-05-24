@@ -2,7 +2,7 @@ name: progress_loader_overlay_example
 description: Demo app for the progress_loader_overlay package.
 publish_to: 'none'
 
-version: 2.0.0+2
+version: 3.0.0+3
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

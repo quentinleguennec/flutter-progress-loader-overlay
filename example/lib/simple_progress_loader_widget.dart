@@ -12,10 +12,12 @@ class SimpleProgressLoaderWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SimpleProgressLoaderWidgetState createState() => _SimpleProgressLoaderWidgetState();
+  _SimpleProgressLoaderWidgetState createState() =>
+      _SimpleProgressLoaderWidgetState();
 }
 
-class _SimpleProgressLoaderWidgetState extends State<SimpleProgressLoaderWidget> with SingleTickerProviderStateMixin {
+class _SimpleProgressLoaderWidgetState extends State<SimpleProgressLoaderWidget>
+    with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progress_loader_overlay/progress_loader_overlay.dart';
+import 'package:progress_loader_overlay_example/test_sync.dart';
 
 import 'complex_progress_loader_widget.dart';
 import 'simple_progress_loader_widget.dart';
@@ -8,8 +9,8 @@ import 'will_pop_scope_loader_page.dart';
 
 void main() {
   /// Initialize the builder. This could be done anywhere, but must be done before the loader is first shown.
-  ProgressLoader().widgetBuilder =
-      (context, loaderWidgetController) => SimpleProgressLoaderWidget(loaderWidgetController);
+  ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
+      SimpleProgressLoaderWidget(loaderWidgetController);
 
   runApp(MyApp());
 }
@@ -22,24 +23,21 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MyHomePage(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => MyHomePage(),
+          '/testSync': (context) => TestSync(),
+        },
       );
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  void showSimpleLoader() async {
+class MyHomePage extends StatelessWidget {
+  void showSimpleLoader(BuildContext context) async {
     /// The widget used when the [ProgressLoader] is showing can be changed at any time.
     /// If the [ProgressLoader] is showing when the widget is replaced the new widget will only be shown after the
     /// [ProgressLoader] is dismissed and shown again.
-    ProgressLoader().widgetBuilder =
-        (context, loaderWidgetController) => SimpleProgressLoaderWidget(loaderWidgetController);
+    ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
+        SimpleProgressLoaderWidget(loaderWidgetController);
 
     /// Show the loader,
     await ProgressLoader().show(context);
@@ -51,26 +49,27 @@ class _MyHomePageState extends State<MyHomePage> {
     await ProgressLoader().dismiss();
   }
 
-  void showComplexLoader() async {
-    ProgressLoader().widgetBuilder =
-        (context, loaderWidgetController) => ComplexProgressLoaderWidget(loaderWidgetController);
+  void showComplexLoader(BuildContext context) async {
+    ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
+        ComplexProgressLoaderWidget(loaderWidgetController);
 
     await ProgressLoader().show(context);
     await Future<void>.delayed(Duration(seconds: 5));
     await ProgressLoader().dismiss();
   }
 
-  void showStatelessLoader() async {
+  void showStatelessLoader(BuildContext context) async {
     /// With this widget we don't want to do anything special when the [ProgressLoader] is dismissed,
     /// so we don't have to attach anything to the controller, and there is no need to pass it to the widget.
-    ProgressLoader().widgetBuilder = (context, _) => StatelessProgressLoaderWidget();
+    ProgressLoader().widgetBuilder =
+        (context, _) => StatelessProgressLoaderWidget();
 
     await ProgressLoader().show(context);
     await Future<void>.delayed(Duration(seconds: 2));
     await ProgressLoader().dismiss();
   }
 
-  void showDefaultLoader() async {
+  void showDefaultLoader(BuildContext context) async {
     /// If no widgetBuilder is specified a simple default loader will be displayed.
     ProgressLoader().widgetBuilder = null;
 
@@ -87,23 +86,24 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ElevatedButton(
                 child: Text('Simple loader'),
-                onPressed: showSimpleLoader,
+                onPressed: () => showSimpleLoader(context),
               ),
               ElevatedButton(
                 child: Text('Complex loader'),
-                onPressed: showComplexLoader,
+                onPressed: () => showComplexLoader(context),
               ),
               ElevatedButton(
                 child: Text('Stateless loader'),
-                onPressed: showStatelessLoader,
+                onPressed: () => showStatelessLoader(context),
               ),
               ElevatedButton(
                 child: Text('Default loader'),
-                onPressed: showDefaultLoader,
+                onPressed: () => showDefaultLoader(context),
               ),
               ElevatedButton(
                 child: Text('Open WillPopScopeLoader demo page'),
-                onPressed: () => Navigator.push(context, WillPopScopeLoaderPage()),
+                onPressed: () =>
+                    Navigator.push(context, WillPopScopeLoaderPage()),
               ),
             ],
           ),

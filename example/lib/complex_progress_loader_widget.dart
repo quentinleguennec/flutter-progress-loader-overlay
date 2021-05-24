@@ -15,10 +15,12 @@ class ComplexProgressLoaderWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ComplexProgressLoaderWidgetState createState() => _ComplexProgressLoaderWidgetState();
+  _ComplexProgressLoaderWidgetState createState() =>
+      _ComplexProgressLoaderWidgetState();
 }
 
-class _ComplexProgressLoaderWidgetState extends State<ComplexProgressLoaderWidget> with TickerProviderStateMixin {
+class _ComplexProgressLoaderWidgetState
+    extends State<ComplexProgressLoaderWidget> with TickerProviderStateMixin {
   late final AnimationController transitionAnimationController;
   late final AnimationController animationController;
 
@@ -42,7 +44,8 @@ class _ComplexProgressLoaderWidgetState extends State<ComplexProgressLoaderWidge
       )
       ..forward().then((value) => animationController.repeat(reverse: true));
 
-    animationController = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
     super.initState();
   }
 
@@ -86,7 +89,8 @@ class _DancingBox extends AnimatedWidget {
 
   double get rotation => 2 * pi * animation.value;
 
-  mathVector.Vector3 get translation => mathVector.Vector3(20 * cos(rotation), 20 * sin(rotation), 0);
+  mathVector.Vector3 get translation =>
+      mathVector.Vector3(20 * cos(rotation), 20 * sin(rotation), 0);
 
   @override
   Widget build(BuildContext context) => Container(

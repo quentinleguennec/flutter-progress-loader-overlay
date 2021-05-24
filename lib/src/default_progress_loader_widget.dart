@@ -12,10 +12,12 @@ class _DefaultProgressLoaderWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DefaultProgressLoaderWidgetState createState() => _DefaultProgressLoaderWidgetState();
+  _DefaultProgressLoaderWidgetState createState() =>
+      _DefaultProgressLoaderWidgetState();
 }
 
-class _DefaultProgressLoaderWidgetState extends State<_DefaultProgressLoaderWidget>
+class _DefaultProgressLoaderWidgetState
+    extends State<_DefaultProgressLoaderWidget>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController;
 
