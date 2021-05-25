@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:progress_loader_overlay/progress_loader_overlay.dart';
 import 'package:vector_math/vector_math_64.dart' as mathVector;
 
+import 'app_extensions.dart';
+
 /// This slightly more complex example shows that the [ProgressLoader] transition and widget can be completely
 /// customized.
 class ComplexProgressLoaderWidget extends StatefulWidget {
@@ -61,8 +63,11 @@ class _ComplexProgressLoaderWidgetState
   Future<void> dismiss() async {
     /// We reverse the dancing box animation fully before removing the black overlay.
     /// [ProgressLoader] will be in the dismissed state only after both these animation are done playing.
-    await animationController.reverse();
-    await transitionAnimationController.reverse();
+    ///
+    /// Important note: [orCancelSilently] is a custom extension, check what it does if you want to do something like
+    /// this in your code.
+    await animationController.reverse().orCancelSilently;
+    await transitionAnimationController.reverse().orCancelSilently;
   }
 
   @override

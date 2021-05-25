@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:progress_loader_overlay/progress_loader_overlay.dart';
 
+import 'app_extensions.dart';
+
 /// This simple loader use an [AnimationController] to show a black overlay with opacity fading in and out,
 /// with a spinner in the middle.
 class SimpleProgressLoaderWidget extends StatefulWidget {
@@ -50,7 +52,9 @@ class _SimpleProgressLoaderWidgetState extends State<SimpleProgressLoaderWidget>
     super.dispose();
   }
 
-  Future<void> dismiss() => animationController.reverse();
+  /// Important note: [orCancelSilently] is a custom extension, check what it does if you want to do something like
+  /// this in your code.
+  Future<void> dismiss() => animationController.reverse().orCancelSilently;
 
   @override
   Widget build(BuildContext context) => Opacity(
