@@ -101,7 +101,7 @@ class _DancingBox extends AnimatedWidget {
   Widget build(BuildContext context) => Container(
         width: size,
         height: size,
-        color: Theme.of(context).accentColor,
+        color: Theme.of(context).colorScheme.secondary,
         transform: Matrix4.translation(translation)
           ..rotateZ(rotation)
           ..rotateY(rotation),

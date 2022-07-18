@@ -88,7 +88,7 @@ class ProgressLoader {
     if (_isShowing || _isDismissing) return;
 
     _isScheduledToShow = true;
-    await SchedulerBinding.instance!.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
     if (!_isScheduledToShow) return;
 
     Overlay.of(context)!.insert(_overlayEntry);
@@ -114,7 +114,7 @@ class ProgressLoader {
     /// This is here to make sure the widget has been built before trying to dismiss it.
     /// Without this, calling show and dismiss on the same frame will prevent the call to [_WidgetController.dismiss],
     /// because the controller won't have the time to attach itself to the widget.
-    await SchedulerBinding.instance!.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
 
     await _widgetController._dismiss();
 

@@ -97,7 +97,7 @@ class TestSync extends StatelessWidget {
     ProgressLoader().widgetBuilder = null;
     await Future<void>.delayed(Duration(milliseconds: 500));
 
-    await SchedulerBinding.instance?.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
 
     // VISIBLE
 
@@ -107,18 +107,18 @@ class TestSync extends StatelessWidget {
 
     // HIDDEN
 
-    await SchedulerBinding.instance?.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
 
     ProgressLoader().show(context);
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
-    await SchedulerBinding.instance?.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
     ProgressLoader().dismiss();
 
     ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
@@ -128,7 +128,7 @@ class TestSync extends StatelessWidget {
 
     ProgressLoader().show(context);
     await Future<void>.delayed(Duration(seconds: 3));
-    await SchedulerBinding.instance?.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
     ProgressLoader().show(context);
     ProgressLoader().show(context);
     ProgressLoader().dismiss();
@@ -150,16 +150,16 @@ class TestSync extends StatelessWidget {
     ProgressLoader().widgetBuilder = null;
     await Future<void>.delayed(Duration(milliseconds: 500));
 
-    await SchedulerBinding.instance?.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
 
     await ProgressLoader().show(context);
     await Future<void>.delayed(Duration(seconds: 1));
     await ProgressLoader().dismiss();
-    await SchedulerBinding.instance?.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
 
     await ProgressLoader().show(context);
     await Future<void>.delayed(Duration(seconds: 3));
-    await SchedulerBinding.instance?.endOfFrame;
+    await SchedulerBinding.instance.endOfFrame;
     await ProgressLoader().show(context);
     await ProgressLoader().show(context);
     await ProgressLoader().dismiss();
