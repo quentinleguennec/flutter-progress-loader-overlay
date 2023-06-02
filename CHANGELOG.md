@@ -1,3 +1,9 @@
+## [3.0.3] - 2023-06-02
+
+- Updated for Flutter 3.10 and Dart 3.
+- Update License wording (same license).
+- Updated README to add shields.
+
 ## [3.0.2] - 2022-07-18
 
 - Fixed `SchedulerBinding` warnings.

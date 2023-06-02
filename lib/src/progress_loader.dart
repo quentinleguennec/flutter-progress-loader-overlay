@@ -91,7 +91,7 @@ class ProgressLoader {
     await SchedulerBinding.instance.endOfFrame;
     if (!_isScheduledToShow) return;
 
-    Overlay.of(context)!.insert(_overlayEntry);
+    Overlay.of(context).insert(_overlayEntry);
     _isScheduledToShow = false;
     _isShowing = true;
   }

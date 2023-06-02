@@ -1,5 +1,8 @@
 # Progress Loader Overlay Flutter Package
 
+[![pub package](https://img.shields.io/pub/v/progress_loader_overlay.svg)](https://pub.dev/packages/progress_loader_overlay)
+[![pub points](https://img.shields.io/pub/points/progress_loader_overlay?color=2E8B57&label=pub%20points)](https://pub.dev/packages/progress_loader_overlay/score)
+
 A flutter package to show an easy to use and fully customizable progress loader as an overlay.
 
 The overlay abstract all the logic of managing it's own state for you so you don't have to worry
