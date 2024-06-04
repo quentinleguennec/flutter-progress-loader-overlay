@@ -14,6 +14,10 @@ import 'progress_loader.dart';
 /// IMPORTANT: [WillPopScope] is a bit broken in Flutter on iOS, and will prevent users from navigating back even if
 /// onWillPop returns true. This widget relies on [WillPopScope] and suffers from the same issue.
 /// See here for more: https://github.com/flutter/flutter/issues/14203
+@Deprecated(
+  'Use PopScopeLoader instead. '
+      "This feature was deprecated after v4.0.0, following Flutter's deprecation of WillPopScope.",
+)
 class WillPopScopeLoader extends StatelessWidget {
   /// The widget below this widget in the tree.
   ///

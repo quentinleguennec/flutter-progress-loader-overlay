@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,7 @@ typedef ProgressLoaderWidgetBuilder = Widget Function(
 class ProgressLoader {
   static final ProgressLoader _instance = ProgressLoader._internal();
 
+  late final StreamController<bool> _onStatusChangedStreamController;
   late final OverlayEntry _overlayEntry;
   late final ProgressLoaderWidgetController _widgetController;
   late bool _isShowing;
@@ -49,12 +52,16 @@ class ProgressLoader {
   /// called if [ProgressLoader] is waiting for the future in [ProgressLoaderWidgetController] to complete.
   bool get isLoading => _isShowing || _isScheduledToShow;
 
+  Stream<bool> get onStatusChangedStream =>
+      _onStatusChangedStreamController.stream;
+
   ProgressLoader._internal() {
     _overlayEntry = _createOverlayEntry();
     _widgetController = ProgressLoaderWidgetController();
     _isShowing = false;
     _isDismissing = false;
     _isScheduledToShow = false;
+    _onStatusChangedStreamController = StreamController.broadcast();
   }
 
   factory ProgressLoader() => _instance;
@@ -94,6 +101,9 @@ class ProgressLoader {
     Overlay.of(context).insert(_overlayEntry);
     _isScheduledToShow = false;
     _isShowing = true;
+    if (_onStatusChangedStreamController.hasListener) {
+      _onStatusChangedStreamController.sink.add(true);
+    }
   }
 
   /// Call this from anywhere to have the [ProgressLoader] dismiss.
@@ -121,11 +131,21 @@ class ProgressLoader {
     _overlayEntry.remove();
     _isDismissing = false;
     _isShowing = false;
+    if (_onStatusChangedStreamController.hasListener) {
+      _onStatusChangedStreamController.sink.add(false);
+    }
 
     if (_showCompleter?.isCompleted == false) {
       _showCompleter?.complete();
     }
     _showCompleter = null;
+  }
+
+  /// Only calls this if you want to clean up when your app is being terminated.
+  /// There is not obligation to call this function, as the singleton nature of this class means the
+  /// StreamController should stay open until the app is terminated.
+  void closeOnStatusChangedStreamController() {
+    _onStatusChangedStreamController.close();
   }
 
   OverlayEntry _createOverlayEntry() => OverlayEntry(

@@ -5,7 +5,7 @@ import 'package:progress_loader_overlay_example/test_sync.dart';
 import 'complex_progress_loader_widget.dart';
 import 'simple_progress_loader_widget.dart';
 import 'stateless_progress_loader_widget.dart';
-import 'will_pop_scope_loader_page.dart';
+import 'pop_scope_loader_page.dart';
 
 void main() {
   /// Initialize the builder. This could be done anywhere, but must be done before the loader is first shown.
@@ -101,9 +101,8 @@ class MyHomePage extends StatelessWidget {
                 onPressed: () => showDefaultLoader(context),
               ),
               ElevatedButton(
-                child: Text('Open WillPopScopeLoader demo page'),
-                onPressed: () =>
-                    Navigator.push(context, WillPopScopeLoaderPage()),
+                child: Text('Open PopScopeLoader demo page'),
+                onPressed: () => Navigator.push(context, PopScopeLoaderPage()),
               ),
             ],
           ),

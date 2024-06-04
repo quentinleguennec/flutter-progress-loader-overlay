@@ -12,8 +12,8 @@ than once at the same time.
 You have full control over the widget shown in the loader too, including any animation. You could
 even play a video there, or some soothing elevator music, up to you.
 
-You also have access to a modified version of `WillPopScope` that makes it a breath to react when users
-press the back button when your loader is showing (and either prevent navigation or allow it and dismiss the loader).
+You also have access to a modified version of `PopScope` that makes it a breeze to users navigation 
+gestures when your loader is showing (and either prevent navigation or allow it and dismiss the loader).
 
 Showing and dismissing the loader is as simple as that:
 ```

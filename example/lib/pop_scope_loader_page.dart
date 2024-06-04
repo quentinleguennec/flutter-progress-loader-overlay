@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:progress_loader_overlay/progress_loader_overlay.dart';
 
-class WillPopScopeLoaderPage extends MaterialPageRoute<Null> {
-  WillPopScopeLoaderPage() : super(builder: (context) => _PageContent());
+class PopScopeLoaderPage extends MaterialPageRoute<Null> {
+  PopScopeLoaderPage() : super(builder: (context) => _PageContent());
 }
 
 class _PageContent extends StatefulWidget {
@@ -13,9 +13,15 @@ class _PageContent extends StatefulWidget {
 }
 
 class _PageContentState extends State<_PageContent> {
-  bool willPopScope = true;
+  bool canPop = true;
   bool allowPopWhenLoading = false;
   bool dismissProgressLoaderWhenPopping = false;
+
+  @override
+  void initState() {
+    ProgressLoader().widgetBuilder = null;
+    super.initState();
+  }
 
   void showDefaultLoader() async {
     await ProgressLoader().show(context);
@@ -41,15 +47,15 @@ class _PageContentState extends State<_PageContent> {
                     !dismissProgressLoaderWhenPopping),
           ),
           ElevatedButton(
-            child: Text('Toggle willPopScope'),
-            onPressed: () => setState(() => willPopScope = !willPopScope),
+            child: Text('Toggle canPop'),
+            onPressed: () => setState(() => canPop = !canPop),
           ),
           ElevatedButton(
             child: Text('Show loader'),
             onPressed: showDefaultLoader,
           ),
 
-          /// like Flutter's [WillPopScope], [WillPopScopeLoader] does not prevent navigation from code using [Navigator.pop].
+          /// like Flutter's [PopScope], [PopScopeLoader] does not prevent navigation from code using [Navigator.pop].
           ElevatedButton(
             child: Text('Back'),
             onPressed: () => Navigator.pop(context),
@@ -70,9 +76,9 @@ class _PageContentState extends State<_PageContent> {
             TextSpan(
               text: '\nBack navigation by the user when loading is ',
             ),
-            if (!willPopScope)
+            if (!canPop)
               TextSpan(
-                text: 'disabled because willPopScope is true.',
+                text: 'disabled because canPop is true.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               )
             else
@@ -103,30 +109,36 @@ class _PageContentState extends State<_PageContent> {
               text: ' be dismissed',
             ),
             TextSpan(
-              text: '\n\nwillPopScope = ',
+              text: '\n\ncanPop = ',
             ),
             TextSpan(
-              text: '$willPopScope:',
+              text: '$canPop:',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
               text: '\nBack navigation by the user is ',
             ),
             TextSpan(
-              text: '${willPopScope ? 'enabled' : 'disabled'}',
+              text: '${canPop ? 'enabled' : 'disabled'}',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            if (canPop && !allowPopWhenLoading)
+              TextSpan(
+                text: ' except when loading',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
 
-            /// NOTE: [WillPopScope] is a bit broken in Flutter on iOS, and will prevent users from navigating back even if
-            /// onWillPop returns true. This widget relies on [WillPopScope] and suffers from the same issue.
-            /// See here for more: https://github.com/flutter/flutter/issues/14203
+            /// NOTE: [PopScope] only recognize system back gestures. On iOS there is not consistency for back gestures,
+            /// and therefore there is no system back gesture. This can lead to issues if you create your own loader widget
+            /// and your widget is intercepting the swipe gesture. Check [_DefaultProgressLoaderWidget] in the code to
+            /// learn more about the issue and see the proposed work-around.
             TextSpan(
               text:
                   '\n\n\n\nPlay with the parameters above then press the "Show loader" button and try to pop the '
                   'page with the default back navigation of your platform (e.g back button on Android...). '
-                  '\n\nNote that the standard swipe left to right from edge of screen to navigate back on iOS is '
-                  'broken in Flutter when using WillPopScope and you won\'t be able to navigate back from here using '
-                  'this gesture. See code for more info.',
+                  '\n\nNOTE: On iOS there is no system back gesture. This can lead to issues if you create your own loader widget '
+                  'and your widget is intercepting the swipe gesture. Check [_DefaultProgressLoaderWidget] in the plugin code to '
+                  'learn more about the issue and see the proposed work-around.',
             ),
           ],
         ),
@@ -136,9 +148,28 @@ class _PageContentState extends State<_PageContent> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: SafeArea(
-          child: WillPopScopeLoader(
-            /// This onWillPop is behaving the same as Flutter's [WillPopScope.onWillPop].
-            onWillPop: () async => willPopScope,
+          child: PopScopeLoader(
+            /// This onPopInvoked is behaving the same as Flutter's [PopScope.onPopInvoked].
+            onPopInvoked: (didPop, wasLoading) {
+              if (!canPop) {
+                print(
+                    'onPopInvoked: The page should NOT pop because canPop is false.');
+              } else if (wasLoading) {
+                if (!allowPopWhenLoading) {
+                  print(
+                      'onPopInvoked: The page should NOT pop because allowPopWhenLoading is false.');
+                } else if (dismissProgressLoaderWhenPopping) {
+                  print(
+                      'onPopInvoked: The page should pop and the progress loader dismiss because dismissProgressLoaderWhenPopping is true.');
+                } else {
+                  print(
+                      'onPopInvoked: The page should pop BUT the progress loader should stay because dismissProgressLoaderWhenPopping is false.');
+                }
+              } else {
+                print('onPopInvoked: The page should pop.');
+              }
+            },
+            canPop: canPop,
             allowPopWhenLoading: allowPopWhenLoading,
             dismissProgressLoaderWhenPopping: dismissProgressLoaderWhenPopping,
             child: Center(

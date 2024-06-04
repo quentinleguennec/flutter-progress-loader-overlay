@@ -1,3 +1,15 @@
+## [4.0.0] - 2024-06-03
+
+- Added `onStatusChangedStream`, which can be listened to to know when the Progress Loader starts
+  showing or dismissing.
+- Added `PopScopeLoader` to replace the deprecated `WillPopScopeLoader`. `PopScopeLoader` is the
+  equivalent to Flutter's `PopScope` but adds extra control for the Progress Loader.
+- Deprecated `WillPopScopeLoader`, following Flutter's deprecation of `WillPopScope`.
+- *Breaking* (iOS only): This is unlikely to break anyone's code but the default Progress Loader was
+  changed on iOS only to allow the swipe back navigation gesture to work with `PopScopeLoader`.
+- Example app: Updated to use `PopScopeLoader` instead of `WillPopScopeLoader`.
+- Example app: Updated Android Gradle dependencies.
+
 ## [3.0.3] - 2023-06-02
 
 - Updated for Flutter 3.10 and Dart 3.
