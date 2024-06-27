@@ -1,3 +1,7 @@
+## [4.0.1] - 2024-06-26
+
+- Fixed formatting.
+
 ## [4.0.0] - 2024-06-03
 
 - Added `onStatusChangedStream`, which can be listened to to know when the Progress Loader starts

@@ -1,6 +1,6 @@
 name: progress_loader_overlay
 description: A flutter package to show an easy to use and fully customizable progress loader as an overlay.
-version: 4.0.0
+version: 4.0.1
 homepage: https://github.com/quentinleguennec/flutter-progress-loader-overlay
 issue_tracker: https://github.com/quentinleguennec/flutter-progress-loader-overlay/issues
 

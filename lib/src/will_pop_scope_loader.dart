@@ -16,7 +16,7 @@ import 'progress_loader.dart';
 /// See here for more: https://github.com/flutter/flutter/issues/14203
 @Deprecated(
   'Use PopScopeLoader instead. '
-      "This feature was deprecated after v4.0.0, following Flutter's deprecation of WillPopScope.",
+  "This feature was deprecated after v4.0.0, following Flutter's deprecation of WillPopScope.",
 )
 class WillPopScopeLoader extends StatelessWidget {
   /// The widget below this widget in the tree.
@@ -59,8 +59,9 @@ class WillPopScopeLoader extends StatelessWidget {
         onWillPop: () async {
           if (await onWillPop?.call() == false) return false;
 
-          if (dismissProgressLoaderWhenPopping)
+          if (dismissProgressLoaderWhenPopping) {
             await ProgressLoader().dismiss();
+          }
 
           return !ProgressLoader().isLoading || allowPopWhenLoading;
         },
