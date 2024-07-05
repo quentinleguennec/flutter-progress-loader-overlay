@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:progress_loader_overlay/progress_loader_overlay.dart';
+import 'package:progress_loader_overlay_example/main.dart';
 
 import 'complex_progress_loader_widget.dart';
 
@@ -9,16 +10,18 @@ import 'complex_progress_loader_widget.dart';
 ///
 /// To see this page run the app with "flutter run --route '/testSync'"
 class TestSync extends StatelessWidget {
+  OverlayState get overlayState => MyApp.navigatorKey.currentState!.overlay!;
+
   /// This should show the default loader, then dismiss it and replace it with the long one straight away, then
   /// dismiss it soon after.
-  void testSync1(BuildContext context) async {
+  void testSync1() async {
     print('testSync1 START');
     ProgressLoader().widgetBuilder = null;
     await Future<void>.delayed(Duration(milliseconds: 500));
 
     // VISIBLE
 
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 1));
     ProgressLoader().dismiss();
 
@@ -26,7 +29,7 @@ class TestSync extends StatelessWidget {
 
     ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
         ComplexProgressLoaderWidget(loaderWidgetController);
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 2));
     ProgressLoader().dismiss();
 
@@ -36,14 +39,14 @@ class TestSync extends StatelessWidget {
   }
 
   /// Should do the same as [testSync1].
-  void testSync1_2(BuildContext context) async {
+  void testSync1_2() async {
     print('testSync1_2 START');
     ProgressLoader().widgetBuilder = null;
     await Future<void>.delayed(Duration(milliseconds: 500));
 
     // VISIBLE
 
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 1));
     ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
         ComplexProgressLoaderWidget(loaderWidgetController);
@@ -52,7 +55,7 @@ class TestSync extends StatelessWidget {
 
     // SWITCH
 
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 2));
     ProgressLoader().dismiss();
 
@@ -61,28 +64,28 @@ class TestSync extends StatelessWidget {
   }
 
   /// This should show the default loader, then dismiss it soon after.
-  void testSync2(BuildContext context) async {
+  void testSync2() async {
     print('testSync2 START');
     ProgressLoader().widgetBuilder = null;
     await Future<void>.delayed(Duration(milliseconds: 500));
 
-    ProgressLoader().show(context);
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
+    ProgressLoader().show(overlayState);
     ProgressLoader().dismiss();
     ProgressLoader().dismiss();
-    ProgressLoader().show(context);
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
+    ProgressLoader().show(overlayState);
     ProgressLoader().dismiss();
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(overlayState);
     ProgressLoader().dismiss();
     ProgressLoader().dismiss();
-    await ProgressLoader().show(context);
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(overlayState);
+    await ProgressLoader().show(overlayState);
     await ProgressLoader().dismiss();
 
     // VISIBLE
 
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 2));
     ProgressLoader().dismiss();
 
@@ -92,7 +95,7 @@ class TestSync extends StatelessWidget {
 
   /// This should show the default loader, then dismiss it and replace it with the long one straight away, then
   /// the long one plays for a bit, then stops and restarts straight away, then dismisses soon after.
-  void testSync3(BuildContext context) async {
+  void testSync3() async {
     print('testSync3 START');
     ProgressLoader().widgetBuilder = null;
     await Future<void>.delayed(Duration(milliseconds: 500));
@@ -101,7 +104,7 @@ class TestSync extends StatelessWidget {
 
     // VISIBLE
 
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 1));
     ProgressLoader().dismiss();
 
@@ -109,7 +112,7 @@ class TestSync extends StatelessWidget {
 
     await SchedulerBinding.instance.endOfFrame;
 
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await SchedulerBinding.instance.endOfFrame;
     await SchedulerBinding.instance.endOfFrame;
     await SchedulerBinding.instance.endOfFrame;
@@ -126,16 +129,16 @@ class TestSync extends StatelessWidget {
 
     // VISIBLE
 
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 3));
     await SchedulerBinding.instance.endOfFrame;
-    ProgressLoader().show(context);
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
+    ProgressLoader().show(overlayState);
     ProgressLoader().dismiss();
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(milliseconds: 50));
     ProgressLoader().dismiss();
-    ProgressLoader().show(context);
+    ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 2));
     ProgressLoader().dismiss();
 
@@ -145,28 +148,28 @@ class TestSync extends StatelessWidget {
 
   /// This should show the default loader, then dismiss it and restart it straight away, then dismiss it and restart
   /// it straight away again, then dismiss it soon after.
-  void testSync4(BuildContext context) async {
+  void testSync4() async {
     print('testSync4 START');
     ProgressLoader().widgetBuilder = null;
     await Future<void>.delayed(Duration(milliseconds: 500));
 
     await SchedulerBinding.instance.endOfFrame;
 
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 1));
     await ProgressLoader().dismiss();
     await SchedulerBinding.instance.endOfFrame;
 
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 3));
     await SchedulerBinding.instance.endOfFrame;
-    await ProgressLoader().show(context);
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(overlayState);
+    await ProgressLoader().show(overlayState);
     await ProgressLoader().dismiss();
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(milliseconds: 50));
     await ProgressLoader().dismiss();
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(overlayState);
     await Future<void>.delayed(Duration(seconds: 3));
     await ProgressLoader().dismiss();
     print('testSync4 END');
@@ -180,23 +183,23 @@ class TestSync extends StatelessWidget {
             children: [
               ElevatedButton(
                 child: Text('testSync1'),
-                onPressed: () => testSync1(context),
+                onPressed: () => testSync1(),
               ),
               ElevatedButton(
                 child: Text('testSync1_2'),
-                onPressed: () => testSync1_2(context),
+                onPressed: () => testSync1_2(),
               ),
               ElevatedButton(
                 child: Text('testSync2'),
-                onPressed: () => testSync2(context),
+                onPressed: () => testSync2(),
               ),
               ElevatedButton(
                 child: Text('testSync3'),
-                onPressed: () => testSync3(context),
+                onPressed: () => testSync3(),
               ),
               ElevatedButton(
                 child: Text('testSync4'),
-                onPressed: () => testSync4(context),
+                onPressed: () => testSync4(),
               ),
               Container(height: 24),
               ElevatedButton(

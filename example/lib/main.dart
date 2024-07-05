@@ -3,9 +3,9 @@ import 'package:progress_loader_overlay/progress_loader_overlay.dart';
 import 'package:progress_loader_overlay_example/test_sync.dart';
 
 import 'complex_progress_loader_widget.dart';
+import 'pop_scope_loader_page.dart';
 import 'simple_progress_loader_widget.dart';
 import 'stateless_progress_loader_widget.dart';
-import 'pop_scope_loader_page.dart';
 
 void main() {
   /// Initialize the builder. This could be done anywhere, but must be done before the loader is first shown.
@@ -16,8 +16,11 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) => MaterialApp(
+        navigatorKey: navigatorKey,
         title: 'Progress Loader Overlay Example',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -40,7 +43,7 @@ class MyHomePage extends StatelessWidget {
         SimpleProgressLoaderWidget(loaderWidgetController);
 
     /// Show the loader,
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(Overlay.of(context));
 
     /// Wait for a network task or any Future,
     await Future<void>.delayed(Duration(seconds: 2));
@@ -49,11 +52,12 @@ class MyHomePage extends StatelessWidget {
     await ProgressLoader().dismiss();
   }
 
-  void showComplexLoader(BuildContext context) async {
+  void showComplexLoader() async {
     ProgressLoader().widgetBuilder = (context, loaderWidgetController) =>
         ComplexProgressLoaderWidget(loaderWidgetController);
 
-    await ProgressLoader().show(context);
+    /// The navigatorKey can always be used instead of the [BuildContext].
+    await ProgressLoader().show(MyApp.navigatorKey.currentState!.overlay!);
     await Future<void>.delayed(Duration(seconds: 5));
     await ProgressLoader().dismiss();
   }
@@ -64,7 +68,7 @@ class MyHomePage extends StatelessWidget {
     ProgressLoader().widgetBuilder =
         (context, _) => StatelessProgressLoaderWidget();
 
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(Overlay.of(context));
     await Future<void>.delayed(Duration(seconds: 2));
     await ProgressLoader().dismiss();
   }
@@ -73,7 +77,7 @@ class MyHomePage extends StatelessWidget {
     /// If no widgetBuilder is specified a simple default loader will be displayed.
     ProgressLoader().widgetBuilder = null;
 
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(Overlay.of(context));
     await Future<void>.delayed(Duration(seconds: 2));
     await ProgressLoader().dismiss();
   }
@@ -90,7 +94,7 @@ class MyHomePage extends StatelessWidget {
               ),
               ElevatedButton(
                 child: Text('Complex loader'),
-                onPressed: () => showComplexLoader(context),
+                onPressed: () => showComplexLoader(),
               ),
               ElevatedButton(
                 child: Text('Stateless loader'),

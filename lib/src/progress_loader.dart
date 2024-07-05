@@ -14,15 +14,17 @@ part 'default_progress_loader_widget.dart';
 /// Used by [ProgressLoader]. The created widget can use the provided [ProgressLoaderWidgetController] and register
 /// the onDismiss callback with [ProgressLoaderWidgetController.attach].
 typedef ProgressLoaderWidgetBuilder = Widget Function(
-    BuildContext context, ProgressLoaderWidgetController controller);
+  BuildContext context,
+  ProgressLoaderWidgetController controller,
+);
 
 /// Can be used to show a widget in an overlay to indicate loading.
 ///
 /// Singleton instance managing it's own state, calling [show] and [dismiss] will affect the overlay no matter where it
 /// is called from.
 ///
-/// Only one overlay can be shown at any time (calling [show] twice without calling [dismiss] will not cause
-/// 2 overlays to show).
+/// Only one overlay can be shown at any time. Calling [show] twice without calling [dismiss] will not cause
+/// 2 overlays to show.
 class ProgressLoader {
   static final ProgressLoader _instance = ProgressLoader._internal();
 
@@ -76,7 +78,13 @@ class ProgressLoader {
   ///
   /// This future will complete on the frame where the overlay is inserted, or when [dismiss] is called, or right away
   /// if the overlay is already showing and not dismissing.
-  Future<void> show(BuildContext context) async {
+  ///
+  /// The [overlayState] can be obtained from:
+  /// - The `navigatorKey` of your [MaterialApp] with `navigatorKey.currentState?.overlay`
+  /// - The [BuildContext] with `Overlay.of(context)`,
+  /// Be mindful that your context needs to be mounted. Using the the `navigatorKey` can help if your context is
+  /// being disposed before the overlay gets a chance to show.
+  Future<void> show(OverlayState overlayState) async {
     if (_isScheduledToShow) {
       return _showCompleter?.future;
     }
@@ -98,7 +106,7 @@ class ProgressLoader {
     await SchedulerBinding.instance.endOfFrame;
     if (!_isScheduledToShow) return;
 
-    Overlay.of(context).insert(_overlayEntry);
+    overlayState.insert(_overlayEntry);
     _isScheduledToShow = false;
     _isShowing = true;
     if (_onStatusChangedStreamController.hasListener) {

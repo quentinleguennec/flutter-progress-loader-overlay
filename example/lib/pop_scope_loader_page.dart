@@ -24,7 +24,7 @@ class _PageContentState extends State<_PageContent> {
   }
 
   void showDefaultLoader() async {
-    await ProgressLoader().show(context);
+    await ProgressLoader().show(Overlay.of(context));
     await Future<void>.delayed(Duration(seconds: 5));
     await ProgressLoader().dismiss();
   }

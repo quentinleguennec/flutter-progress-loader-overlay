@@ -1,3 +1,11 @@
+## [5.0.0] - 2024-07-05
+
+- *Breaking*: `ProgressLoader().show()` now takes an OverlayState rather than a BuildContext. This
+  gives more flexibility to choose what context the overlay should use. For example you can now use
+  the OverlayState of the Material App navigationKey, and avoid using the local context entirely.
+  This is particularly useful if your context is being disposed before the overlay gets a chance to
+  show.
+
 ## [4.0.1] - 2024-06-26
 
 - Fixed formatting.
